@@ -1,0 +1,103 @@
+<!-- Refer mapbox site or tut 88 corona map harry -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Corona Map</title>
+    <link rel="icon" href="virus.png">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #menu {
+            display: inline-block;
+            width: 30%;
+            position: absolute;
+            right: 35%;
+            bottom: 25px;
+            background: rgb(146, 167, 133);
+            padding: 10px;
+            border: 3px solid greenyellow;
+            border-radius: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        input {
+            margin: 2px;
+        }
+
+        #top {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: bold;
+            font-style: italic;
+            display: inline-block;
+            width: 35%;
+            position: absolute;
+            right: 33%;
+            top: 15px;
+            background: rgb(146, 167, 133);
+            padding: 10px 2px;
+            border: 3px solid greenyellow;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+    <div id="menu">
+        <input id="streets-v11" type="radio" name="rtoggle" value="streets" />
+        <label for="streets-v11">Streets</label>
+        <input id="light-v10" type="radio" name="rtoggle" value="light" />
+        <label for="light-v10">Light</label>
+        <input id="dark-v10" type="radio" name="rtoggle" value="dark" checked="checked" />
+        <label for="dark-v10">Dark</label>
+        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" />
+        <label for="outdoors-v11">Outdoors</label>
+        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" />
+        <label for="satellite-v9">Satellite</label>
+    </div>
+    <div id="top">
+        Welcome to LIVE map of current COVID-19 infections!
+    </div>
+</body>
+<script>
+    //basic map insert
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaGFycnkxMjM0OTgiLCJhIjoiY2s4OXh1c3BqMGFsZzNvbXA3YmYyaGFhYSJ9.wmVMiMxlSqpzJPsj-UXr3Q';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v10',
+        zoom: 1,
+        center: [27, 25]
+    });
+    //for views adjustment
+    var layerList = document.getElementById('menu');
+    var inputs = layerList.getElementsByTagName('input');
+
+    function switchLayer(layer) {
+        var layerId = layer.target.id;
+        map.setStyle('mapbox://styles/mapbox/' + layerId);
+    }
+
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].onclick = switchLayer;
+    }
+
+    // Add zoom and rotation controls to the map.
+    map.addControl(new mapboxgl.NavigationControl());
+</script>
+<script src="index.js"></script>
+
+</html>
